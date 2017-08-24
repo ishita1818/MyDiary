@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp"
+    tools:context="com.diary.ishita.mydiary.UserProfileActivity"
+    android:orientation="vertical"
+    >
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Name :"
+    android:textAppearance="?android:textAppearanceMedium"
+    android:textColor="@android:color/black"
+    android:padding="4dp"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="enter your name"
+        android:textColor="@color/colorPrimary"
+        android:tint="@color/colorPrimary"
+        android:padding="4dp"
+        android:id="@+id/user_name_edit_text_view"
+        android:textCursorDrawable="@null"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email :"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@android:color/black"
+        android:padding="4dp"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="enter your email"
+        android:textColor="@color/colorPrimary"
+        android:tint="@color/colorPrimary"
+        android:padding="4dp"
+        android:id="@+id/user_email_edit_text_view"
+        android:textCursorDrawable="@null"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your notes :"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@android:color/black"
+        android:padding="4dp"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="You can add your personal details...or anythnig you want"
+        android:textColor="@color/colorPrimary"
+        android:tint="@color/colorPrimary"
+        android:padding="4dp"
+        android:id="@+id/user_notes_edit_text_view"
+        android:textCursorDrawable="@null"/>
+    </ScrollView>
+</LinearLayout>

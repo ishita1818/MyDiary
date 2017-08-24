@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.diary.ishita.mydiary.DetailActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:padding="8dp"
+            android:src="@mipmap/person_image"
+            android:layout_weight="0"
+            android:id="@+id/detail_activity_image_view"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Title :"
+                android:textColor="@color/colorPrimary"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:paddingTop="8dp"
+                />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:backgroundTint="@android:color/black"
+                android:textCursorDrawable="@null"
+                android:textColor="@android:color/black"
+                android:hint="Add a title for your note"
+                android:paddingBottom="4dp"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:id="@+id/title_note"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Date :"
+                android:textColor="@color/colorPrimary"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:paddingTop="8dp"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="0"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/ic_date_range"
+                android:id="@+id/date_selector"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:text="unknown date"
+                    android:textColor="@android:color/black"
+                    android:id="@+id/date_detail_activity"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description :"
+        android:paddingTop="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/colorPrimary"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/black"
+        android:hint="Add some details"
+        android:textCursorDrawable="@null"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:id="@+id/description_detail_Activity"
+        />
+    </ScrollView>
+</LinearLayout>
