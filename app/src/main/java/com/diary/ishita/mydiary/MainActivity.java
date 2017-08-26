@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,6 +31,8 @@ import android.widget.Toast;
 import com.diary.ishita.mydiary.data.DiaryContract.DiaryEntry;
 import com.diary.ishita.mydiary.data.DiaryDbHelper;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,LoaderManager.LoaderCallbacks<Cursor>{
 
     private  DiaryDbHelper mDbHelper;
@@ -40,13 +43,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static TextView user_nav_email;
     public static ImageView user_nav_image;
     public static boolean has_set_image = false;
+    TextToSpeech textToSpeech;
 
+    public void toSpeak(String s){
+        textToSpeech.speak(s,TextToSpeech.QUEUE_FLUSH,null);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        textToSpeech=new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+                if(i!=TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.UK);
+                }
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             showDeleteConfirmationDialog();
             else{
                 Toast toast= Toast.makeText(this,"No entries to delete!",Toast.LENGTH_SHORT);
+                toSpeak("No entries to delete");
                 toast.show();
             }
             return true;
@@ -165,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showDeleteConfirmationDialog(){
         AlertDialog.Builder builder= new  AlertDialog.Builder(this);
         builder.setMessage("Delete all diaries?");
+        toSpeak("Delete all diaries?");
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener(){
 
             @Override
