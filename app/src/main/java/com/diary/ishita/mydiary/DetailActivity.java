@@ -3,6 +3,7 @@ package com.diary.ishita.mydiary;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.LoaderManager;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -13,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -29,10 +31,12 @@ import android.widget.Toast;
 import com.diary.ishita.mydiary.data.DiaryContract.DiaryEntry;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
+    private static final int RESULT_TITLE_SPEECH = 100;
     private static ImageView image_view_detail_activity;
     private static EditText title_text_view;
     private static TextView date_text_view;
@@ -40,6 +44,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private static Uri CURRENT_DIARY_URI;
     private static final int LOADER_ID= 1;
     private static Button date_range;
+    private static Button title_mic_button;
     private static Calendar myCalendar;
 
     @Override
@@ -62,6 +67,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         date_text_view= (TextView)findViewById(R.id.date_detail_activity);
         description_text_view=(EditText)findViewById(R.id.description_detail_Activity);
         date_range =(Button)findViewById(R.id.date_selector);
+        title_mic_button=(Button)findViewById(R.id.title_mic_button);
 
         myCalendar = Calendar.getInstance();
 
@@ -70,7 +76,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-                // TODO Auto-generated method stub
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -83,7 +88,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 new DatePickerDialog(DetailActivity.this, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -102,12 +106,39 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         date_range.setOnTouchListener(mTouchListener);
         title_text_view.setOnTouchListener(mTouchListener);
         description_text_view.setOnTouchListener(mTouchListener);
-
+        title_mic_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, new String[]{"hin-IND"});
+                try{
+                    startActivityForResult(intent,RESULT_TITLE_SPEECH);
+                }catch (ActivityNotFoundException a){
+                    Toast toast = Toast.makeText(getApplicationContext(),"Your device dosen't support speech recognisation!",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode){
+            case RESULT_TITLE_SPEECH:
+                if(resultCode==RESULT_OK&& data!=null){
+                    ArrayList<String> text = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    title_text_view.setText(text.get(0));
+                }
+                break;
+        }
+    }
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        // If this is a new pet, hide the "Delete" menu item.
+        // If this is a new diary, hide the "Delete" menu item.
         if (CURRENT_DIARY_URI == null) {
             MenuItem menuItem = menu.findItem(R.id.action_delete);
             menuItem.setVisible(false);
@@ -141,7 +172,7 @@ private boolean has_filled_diary= false;
         builder.setNegativeButton("Keep Editing", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Keep editing" button, so dismiss the dialog
-                // and continue editing the pet.
+                // and continue editing the diary.
                 if (dialog != null) {
                     dialog.dismiss();
                 }
@@ -155,7 +186,7 @@ private boolean has_filled_diary= false;
 
     @Override
     public void onBackPressed() {
-        // If the pet hasn't changed, continue with handling back button press
+        // If the diary hasn't changed, continue with handling back button press
         if (!has_filled_diary) {
             super.onBackPressed();
             return;
