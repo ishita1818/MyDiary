@@ -37,6 +37,7 @@ import java.util.Calendar;
 public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final int RESULT_TITLE_SPEECH = 100;
+    private static final int RESULT_DESCRIPTION_TEXT = 101;
     private static ImageView image_view_detail_activity;
     private static EditText title_text_view;
     private static TextView date_text_view;
@@ -45,6 +46,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private static final int LOADER_ID= 1;
     private static Button date_range;
     private static Button title_mic_button;
+    private static Button description_mic_button;
     private static Calendar myCalendar;
 
     @Override
@@ -68,7 +70,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         description_text_view=(EditText)findViewById(R.id.description_detail_Activity);
         date_range =(Button)findViewById(R.id.date_selector);
         title_mic_button=(Button)findViewById(R.id.title_mic_button);
-
+        description_mic_button=(Button)findViewById(R.id.description_mic_button);
         myCalendar = Calendar.getInstance();
 
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -119,6 +121,19 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 }
             }
         });
+        description_mic_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,new String[]{"en"});
+                try{
+                    startActivityForResult(intent,RESULT_DESCRIPTION_TEXT);
+                }catch (ActivityNotFoundException a){
+                    Toast toast = Toast.makeText(getApplicationContext(),"Your device dosen't support speech recognisation!",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
     }
 
     @Override
@@ -132,6 +147,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     title_text_view.setText(text.get(0));
                 }
                 break;
+            case RESULT_DESCRIPTION_TEXT:
+                if(resultCode==RESULT_OK && data!=null){
+                    ArrayList<String> text= data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    description_text_view.setText(text.get(0));
+                }
+                 break;
         }
     }
 
