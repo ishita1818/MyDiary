@@ -1,5 +1,5 @@
 # MyDiary-
-This app lets the user to add, save and edit notes along with the date,picture and a short title.
+This app lets the user to add, save and edit notes along with the date,picture and a short title.User can save his/her personal data if he/she wants in the MyProfile section along with a nice profile picture :) Users can send me an honest feedback by an email.
 
 
 ## Some of the screenshots are:
@@ -29,3 +29,6 @@ This app lets the user to add, save and edit notes along with the date,picture a
 
 * _Navigation drawer for feedback and user profile_
 <img src="https://user-images.githubusercontent.com/29219860/33528445-7348e57a-d886-11e7-90e7-d9c3020e52c6.png" height="350" width="200"/>
+
+
+Any type of improvements and suggestions are welcomed.
